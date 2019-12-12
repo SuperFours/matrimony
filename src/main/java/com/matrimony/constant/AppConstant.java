@@ -19,5 +19,9 @@ public class AppConstant {
 	// Login
 	public static final String LOGIN_SUCCESSFULLY = "User Login Successfully";
 	public static final String INVALID_LOGIN = "Invalid Username and Password";
+	
+	//User Profile
+	public static final String GEMDER_MALE = "male";
+	public static final String GEMDER_FEMALE = "female";
 
 }

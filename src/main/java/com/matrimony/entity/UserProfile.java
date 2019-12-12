@@ -38,7 +38,7 @@ public class UserProfile {
 	private String maritialStatus;
 	private String emailAddress;
 	private LocalDate dob;
-	private Integer mobileNumber;
+	private String mobileNumber;
 	private String city;
 	private String aboutMe;
 	private String educationDetail;
