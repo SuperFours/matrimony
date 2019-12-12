@@ -15,6 +15,7 @@ public class AppConstant {
 	// Common Httpstatus success and failure messages.
 	public static final String SUCCESS = "SUCCESS";
 	public static final String FAILURE = "FAILURE";
+	public static final String NO_RECORD_FOUND = "No Record Found";
 
 	// Login
 	public static final String LOGIN_SUCCESSFULLY = "User Login Successfully";
