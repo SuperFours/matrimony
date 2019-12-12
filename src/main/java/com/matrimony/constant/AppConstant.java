@@ -37,4 +37,6 @@ public class AppConstant {
 
     // User profile Details
 	public static final String USER_NOT_FOUND = "User Profile Not found";
+	
+	public static final Integer ZERO = 0;
 }

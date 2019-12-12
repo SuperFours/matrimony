@@ -2,18 +2,21 @@ package com.matrimony.dto;
 
 import java.util.List;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Setter
 @Getter
+@Setter
 @ToString
-public class UserProfileResponseDto {
-	
+@AllArgsConstructor
+@NoArgsConstructor
+public class UsersResponseDto {
+
 	private String message;
 	private Integer statusCode;
 	
-	List<UserProfileRequestDto> profiles;
-
+	private List<UserDto> interestedProfiles;
 }

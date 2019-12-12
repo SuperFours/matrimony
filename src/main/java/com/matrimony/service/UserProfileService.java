@@ -2,6 +2,7 @@ package com.matrimony.service;
 
 import com.matrimony.dto.ProfileResponseDto;
 import com.matrimony.dto.UserProfileResponseDto;
+import com.matrimony.dto.UsersResponseDto;
 
 import javassist.NotFoundException;
 
@@ -18,5 +19,7 @@ public interface UserProfileService {
 	public ProfileResponseDto profileDetail(Integer matrimonyId) throws NotFoundException;
 
 	UserProfileResponseDto fetchAllProfiles(Integer userMatrimonyId);
+	
+	UsersResponseDto fetchProfilesInterestedOnMe(Integer userMatrimonyId);
 
 }

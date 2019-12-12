@@ -19,9 +19,13 @@ import org.springframework.stereotype.Service;
 import com.matrimony.constant.AppConstant;
 import com.matrimony.dto.ProfileDto;
 import com.matrimony.dto.ProfileResponseDto;
+import com.matrimony.dto.UserDto;
 import com.matrimony.dto.UserProfileRequestDto;
 import com.matrimony.dto.UserProfileResponseDto;
+import com.matrimony.dto.UsersResponseDto;
 import com.matrimony.entity.UserProfile;
+import com.matrimony.entity.UserProfileInterest;
+import com.matrimony.repository.UserProfileInterestRepository;
 import com.matrimony.repository.UserProfileRepository;
 
 import javassist.NotFoundException;
@@ -42,7 +46,9 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	@Autowired
 	UserProfileRepository userProfileRepository;
-
+	
+	@Autowired
+	UserProfileInterestRepository userProfileInterestRepository;
 	/**
 	 * @throws NotFoundException
 	 * @description In this method we are getting the user profile Details from the
@@ -84,26 +90,38 @@ public class UserProfileServiceImpl implements UserProfileService {
 		String gender = null;
 
 		if (userResponse != null) {
+
 			gender = userResponse.getGender();
+
 			UserProfile userProfile = new UserProfile();
+
 			if (gender.equalsIgnoreCase(AppConstant.GEMDER_MALE)) {
+
 				userProfile.setGender(AppConstant.GEMDER_FEMALE);
+
 				usersProfiles = userProfileRepository.findAllByGender(userProfile.getGender());
+
 				sserProfileResponseDto = usersProfiles.stream().map(this::convertEntityToDto)
 						.collect(Collectors.toList());
+
 				response = new UserProfileResponseDto();
+
 				response.setMessage(AppConstant.SUCCESS);
-				response.setUserProfiles(sserProfileResponseDto);
+				response.setProfiles(sserProfileResponseDto);
 
 			} else {
 
 				userProfile.setGender(AppConstant.GEMDER_MALE);
+
 				usersProfiles = userProfileRepository.findAllByGender(userProfile.getGender());
+
 				sserProfileResponseDto = usersProfiles.stream().map(this::convertEntityToDto)
 						.collect(Collectors.toList());
+
 				response = new UserProfileResponseDto();
+
 				response.setMessage(AppConstant.SUCCESS);
-				response.setUserProfiles(sserProfileResponseDto);
+				response.setProfiles(sserProfileResponseDto);
 			}
 
 		} else {
@@ -114,7 +132,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 			response.setMessage(AppConstant.NO_RECORD_FOUND);
 			response.setStatusCode(HttpStatus.NOT_FOUND.value());
-			response.setUserProfiles(sserProfileResponseDto);
+			response.setProfiles(sserProfileResponseDto);
 		}
 
 		return response;
@@ -129,10 +147,70 @@ public class UserProfileServiceImpl implements UserProfileService {
 	 *         parameters
 	 */
 	private UserProfileRequestDto convertEntityToDto(UserProfile userProfile) {
+
 		UserProfileRequestDto userProfileRequestDto = new UserProfileRequestDto();
+
 		userProfileRequestDto.setUserMatrimonyId(userProfile.getUserMatrimonyId().getMatrimonyId());
+
 		BeanUtils.copyProperties(userProfile, userProfileRequestDto);
+
 		log.info("Converted entiry and - returning UserProfileRequestDto ");
+
 		return userProfileRequestDto;
+	}
+
+	/**
+	 * @description this method will fetch all the interested users on me
+	 * @param UserMatrimonyId integer
+	 * @return UsersResponseDto object will contains set of properties
+	 */
+	@Override
+	public UsersResponseDto fetchProfilesInterestedOnMe(Integer userMatrimonyId) {
+		
+		List<UserProfileInterest> interestedUsers = null; 
+		List<UserDto>  userDtoResponse =null;
+		
+		UsersResponseDto usersResponseDto=null;
+		
+		interestedUsers = userProfileInterestRepository.findAllByInterestMatrimonyIdMatrimonyId(userMatrimonyId);
+		 
+		 if(interestedUsers !=null && interestedUsers.size() > AppConstant.ZERO) {
+			
+			 userDtoResponse = interestedUsers.stream().map(this::convertUserEntityToDto).collect(Collectors.toList());
+			 
+			 usersResponseDto = new UsersResponseDto();
+			 usersResponseDto.setMessage(AppConstant.SUCCESS);
+			 usersResponseDto.setStatusCode(HttpStatus.OK.value());
+			 usersResponseDto.setInterestedProfiles(userDtoResponse);
+		 }else {
+			 log.info("Interested User Not ound");
+			 usersResponseDto = new UsersResponseDto();
+			 usersResponseDto.setMessage(AppConstant.NO_RECORD_FOUND);
+			 usersResponseDto.setStatusCode(HttpStatus.NOT_FOUND.value());
+			 usersResponseDto.setInterestedProfiles(userDtoResponse);
+		 }
+		
+		return usersResponseDto;
+	}
+
+	/**
+	 * @description This below method is a used to convert entity to DTO and return
+	 *              the response DTO object
+	 * @param UserProfile input object to convert
+	 * @return UserProfileRequestDto - class and it will contain all required
+	 *         parameters
+	 */
+	private UserDto convertUserEntityToDto(UserProfileInterest userProfileInterest) {
+
+		UserDto userDto = new UserDto();
+
+		BeanUtils.copyProperties(userProfileInterest.getInterestMatrimonyId().getUserProfile(), userDto);
+		 
+		  userDto.setStatus(userProfileInterest.getStatus());
+		 
+		userDto.setUserMatrimonyId(userProfileInterest.getInterestMatrimonyId().getMatrimonyId());
+		log.info("Converted user entiry and - returning UserDto ");
+
+		return userDto;
 	}
 }

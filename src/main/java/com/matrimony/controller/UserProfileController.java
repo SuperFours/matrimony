@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.matrimony.constant.AppConstant;
 import com.matrimony.dto.ProfileResponseDto;
 import com.matrimony.dto.UserProfileResponseDto;
+import com.matrimony.dto.UsersResponseDto;
 import com.matrimony.service.UserProfileService;
 
 import javassist.NotFoundException;
@@ -50,15 +51,30 @@ public class UserProfileController {
 	}
 
 	/**
-	 * This below method is used to get the all the profiles based on the opposite
-	 * gender
-	 * 
-	 * @return
+	 * This below method is used to get the all the profiles based on the opposite gender
+	 * @param userMatrimonyId integer
+	 * @return  UserProfileResponseDto
 	 */
 	@GetMapping("users/{userMatrimonyId}/dashbord")
 	public ResponseEntity<UserProfileResponseDto> getAllProfiles(@PathVariable Integer userMatrimonyId) {
 		UserProfileResponseDto userProfileResponseDto = userProfileService.fetchAllProfiles(userMatrimonyId);
 		return new ResponseEntity<>(userProfileResponseDto, HttpStatus.OK);
 	}
+	
+	/**
+	 * @description This below method is used to fetch all the interested profiles
+	 * @param userMatrimonyId integer
+	 * @return UsersResponseDto object contains set of dependent properties
+	 */
+	@GetMapping("/{userMatrimonyId}/interests")
+	public ResponseEntity<UsersResponseDto> getProfilesInterestedOnMe(@PathVariable Integer userMatrimonyId) {
+		
+		UsersResponseDto usersResponseDto = userProfileService.fetchProfilesInterestedOnMe(userMatrimonyId);
+		
+		log.info("interested users info response sent back to UI ");
+		return new ResponseEntity<>(usersResponseDto, HttpStatus.OK);
+	}
+
+
 
 }

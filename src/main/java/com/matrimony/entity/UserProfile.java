@@ -1,5 +1,6 @@
 package com.matrimony.entity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
@@ -11,8 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @description - User Profile Entity - We are maintaining the some more user
@@ -24,7 +28,12 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-public class UserProfile {
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+public class UserProfile implements Serializable {
+
+	private static final long serialVersionUID = 5706509998889168144L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
