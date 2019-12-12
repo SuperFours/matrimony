@@ -24,13 +24,13 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
+@SequenceGenerator(name = "matrimonyId", allocationSize= 1, initialValue = 50000)
 public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@SequenceGenerator(name = "my_sequence", sequenceName = "dbsequence", initialValue = 10000, allocationSize = 10)
-	private String matrimonyId;
-	private Integer phoneNumber;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "matrimonyId")
+	private Integer matrimonyId;
+	private String phoneNumber;
 	private String password;
 	private boolean status;
 

@@ -25,6 +25,6 @@ public class LoginServiceImpl implements LoginService {
 	 */
 	@Override
 	public User login(LoginDto loginDto) {
-		return userRepository.findByPhoneNumberAndPassword(loginDto.getUserId(), loginDto.getPassword());
+		return userRepository.findByPhoneNumberAndPassword(loginDto.getPhoneNumber(), loginDto.getPassword());
 	}
 }

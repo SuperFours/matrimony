@@ -17,10 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.matrimony.constant.AppConstant;
 import com.matrimony.dto.LoginDto;
-import com.matrimony.dto.ResponseDto;
+import com.matrimony.dto.LoginResponseDto;
 import com.matrimony.entity.User;
 import com.matrimony.service.LoginService;
-
 
 /**
  * @description - LoginController - We can check the user login functionalities
@@ -40,23 +39,29 @@ public class LoginController {
 
 	/**
 	 * login checks with userId and password
+	 * 
 	 * @param userDto -> params are userId and password.
 	 * @return response is success or failure
 	 */
-	
-	@PostMapping(value = "/login")
-	public ResponseEntity<ResponseDto> login(@Valid @RequestBody LoginDto loginDto) {
+
+	@PostMapping
+	public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginDto loginDto) {
 		logger.info("user login checks...");
-		ResponseDto  responseDto;
+		LoginResponseDto responseDto = new LoginResponseDto();
 		User user = loginService.login(loginDto);
 		Optional<User> isUser = Optional.ofNullable(user);
 		if (isUser.isPresent()) {
-			responseDto = new ResponseDto(AppConstant.SUCCESS, HttpStatus.OK.value(), AppConstant.LOGIN_SUCCESSFULLY);
+			responseDto.setMatrimonyId(user.getMatrimonyId());
+			responseDto.setUserName(user.getUserProfile().getName());
+			responseDto.setMessage(AppConstant.LOGIN_SUCCESSFULLY);
+			responseDto.setStatus(AppConstant.SUCCESS);
+			responseDto.setStatusCode(HttpStatus.OK.value());
 		} else {
-			responseDto = new ResponseDto(AppConstant.FAILURE, HttpStatus.NOT_FOUND.value(), AppConstant.INVALID_LOGIN);
+			responseDto.setMessage(AppConstant.INVALID_LOGIN);
+			responseDto.setStatus(AppConstant.FAILURE);
+			responseDto.setStatusCode(HttpStatus.NOT_FOUND.value());
 		}
 		return new ResponseEntity<>(responseDto, HttpStatus.OK);
 	}
-	
-	
+
 }
