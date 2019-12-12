@@ -1,9 +1,6 @@
 package com.matrimony.dto;
 
 import java.time.LocalDate;
-import java.util.List;
-
-import com.matrimony.entity.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

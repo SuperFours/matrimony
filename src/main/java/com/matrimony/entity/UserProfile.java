@@ -33,7 +33,7 @@ import lombok.ToString;
 @ToString
 public class UserProfile implements Serializable {
 
-	private static final long serialVersionUID = 5706509998889168144L;
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -48,7 +48,6 @@ public class UserProfile implements Serializable {
 	private String emailAddress;
 	private LocalDate dob;
 	private String phoneNumber;
-	private String mobileNumber;
 	private String city;
 	private String aboutMe;
 	private String educationDetail;

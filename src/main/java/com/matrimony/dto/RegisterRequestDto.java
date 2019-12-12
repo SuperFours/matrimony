@@ -24,13 +24,14 @@ public class RegisterRequestDto {
 	private String phoneNumber;
 	private Integer age;
 	private String gender;
-	private String maritialStatus;
+	private String maritalStatus;
 	private String emailAddress;
 	private String dob;
 	private String password;
 	private String city;
 	private String aboutMe;
 	private String educationDetail;
+	private String imageUrl;
 	private String occupationDetail;
 	private Double annualIncome;
 }

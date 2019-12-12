@@ -51,16 +51,19 @@ public class UserProfileController {
 	}
 
 	/**
-	 * This below method is used to get the all the profiles based on the opposite gender
+	 * This below method is used to get the all the profiles based on the opposite
+	 * gender
+	 * 
 	 * @param userMatrimonyId integer
-	 * @return  UserProfileResponseDto
+	 * @return UserProfileResponseDto
 	 */
-	@GetMapping("users/{userMatrimonyId}/dashbord")
+	@GetMapping("users/{userMatrimonyId}/dashboard")
 	public ResponseEntity<UserProfileResponseDto> getAllProfiles(@PathVariable Integer userMatrimonyId) {
 		UserProfileResponseDto userProfileResponseDto = userProfileService.fetchAllProfiles(userMatrimonyId);
+		userProfileResponseDto.setStatusCode(HttpStatus.OK.value());
 		return new ResponseEntity<>(userProfileResponseDto, HttpStatus.OK);
 	}
-	
+
 	/**
 	 * @description This below method is used to fetch all the interested profiles
 	 * @param userMatrimonyId integer
@@ -68,13 +71,10 @@ public class UserProfileController {
 	 */
 	@GetMapping("/{userMatrimonyId}/interests")
 	public ResponseEntity<UsersResponseDto> getProfilesInterestedOnMe(@PathVariable Integer userMatrimonyId) {
-		
 		UsersResponseDto usersResponseDto = userProfileService.fetchProfilesInterestedOnMe(userMatrimonyId);
-		
+		usersResponseDto.setStatusCode(HttpStatus.OK.value());
 		log.info("interested users info response sent back to UI ");
 		return new ResponseEntity<>(usersResponseDto, HttpStatus.OK);
 	}
-
-
 
 }

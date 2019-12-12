@@ -33,7 +33,6 @@ import javassist.NotFoundException;
  */
 @ControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
-	private static final Logger logger = LoggerFactory.getLogger(CustomExceptionHandler.class);
 
 	/**
 	 * @description - Handle the not valid field errors along with validation
@@ -42,7 +41,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
-		logger.error("get all the field errors...");
 		Map<String, Object> body = new LinkedHashMap<>();
 		body.put("timestamp", new Date());
 		body.put("status", status.value());
@@ -54,7 +52,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		body.put("errors", errors);
 		return new ResponseEntity<>(body, headers, status);
 	}
-	
+
 	@ExceptionHandler(NotFoundException.class)
 	public ResponseEntity<ResponseDto> handleNoRecordFoundException(NotFoundException ex) {
 		ResponseDto responseDto = new ResponseDto();
@@ -63,6 +61,5 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		responseDto.setStatusCode(HttpStatus.NOT_FOUND.value());
 		return new ResponseEntity<>(responseDto, HttpStatus.NOT_FOUND);
 	}
-	
-	
+
 }

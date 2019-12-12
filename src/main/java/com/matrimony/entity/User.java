@@ -41,7 +41,7 @@ public class User implements Serializable{
 	private Integer matrimonyId;
 	private String phoneNumber;
 	private String password;
-	private String status;
+	private boolean status;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userMatrimonyId")
 	private UserProfile userProfile;
