@@ -22,7 +22,7 @@ public class UserProfileAlreadyExist extends RuntimeException {
 		super();
 	}
 
-	public UserProfileAlreadyExist(String userexist) {		
+	public UserProfileAlreadyExist(String userexist) {
 		super(AppConstant.USER_PROFILE_ALREADY_EXISTS);
 	}
 

@@ -31,22 +31,13 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @Entity
-<<<<<<< HEAD
 @SequenceGenerator(name = "matrimonyId", allocationSize= 1, initialValue = 50000)
-public class User {
-=======
 public class User implements Serializable{
->>>>>>> 8f511e1e81669a2aeeb29a6aea8f6491c2335deb
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-<<<<<<< HEAD
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "matrimonyId")
-=======
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@SequenceGenerator(name = "my_sequence", sequenceName = "dbsequence", initialValue = 10000, allocationSize = 10)
->>>>>>> 8f511e1e81669a2aeeb29a6aea8f6491c2335deb
 	private Integer matrimonyId;
 	private String phoneNumber;
 	private String password;

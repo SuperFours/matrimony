@@ -21,17 +21,12 @@ public class RegisterRequestDto {
 	
 	@NotBlank(message = "phoneNumber should be mandatory")
 	@Pattern(regexp = "(^$|[0-9]{10})", message = "Invalid phoneNumber.")
-	
 	private String phoneNumber;
 	private Integer age;
 	private String gender;
 	private String maritialStatus;
 	private String emailAddress;
 	private String dob;
-<<<<<<< HEAD
-=======
-	private String mobileNumber;
->>>>>>> 8f511e1e81669a2aeeb29a6aea8f6491c2335deb
 	private String password;
 	private String city;
 	private String aboutMe;
