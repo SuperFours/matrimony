@@ -31,6 +31,11 @@ public class UserProfileServiceImpl implements UserProfileService {
 	@Autowired
 	UserProfileRepository userProfileRepository;
 
+	/**
+	 * @description This method is a used to do implement the logic for profile search, if your a male then it will return female profile and vice versa
+	 * @param userMatrimonyId input integer 
+	 * @return UserProfileResponseDto - class and it will contain all required parameters
+	 */
 	@Override
 	public UserProfileResponseDto fetchAllProfiles(Integer userMatrimonyId) {
 
@@ -92,9 +97,9 @@ public class UserProfileServiceImpl implements UserProfileService {
 	}
 	
 	/**
-	 * @param userProfile
-	 * @return UserProfileRequestDto - class and it will contain all required parameters
 	 * @description This below method is a used to convert entity to DTO and return the response DTO object
+	 * @param UserProfile input object to convert
+	 * @return UserProfileRequestDto - class and it will contain all required parameters
 	 */
 	private UserProfileRequestDto convertEntityToDto(UserProfile userProfile) {
 		
