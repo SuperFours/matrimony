@@ -204,7 +204,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 		UserDto userDto = new UserDto();
 
-		BeanUtils.copyProperties(userProfileInterest.getInterestMatrimonyId().getUserProfile(), userDto);
+		BeanUtils.copyProperties(userProfileInterest.getLoginMatrimonyId().getUserProfile(), userDto);
 		 
 		  userDto.setStatus(userProfileInterest.getStatus());
 		 
