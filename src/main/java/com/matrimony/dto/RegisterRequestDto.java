@@ -20,7 +20,7 @@ public class RegisterRequestDto {
 	private String maritialStatus;
 	private String emailAddress;
 	private String dob;
-	private Integer phoneNumber;
+	private String mobileNumber;
 	private String password;
 	private String city;
 	private String aboutMe;

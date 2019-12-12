@@ -35,10 +35,10 @@ public class UserProfile {
 	private String name;
 	private Integer age;
 	private String gender;
-	private String maritialStatus;
+	private String maritalStatus;
 	private String emailAddress;
 	private LocalDate dob;
-	private Integer mobileNumber;
+	private String mobileNumber;
 	private String city;
 	private String aboutMe;
 	private String educationDetail;

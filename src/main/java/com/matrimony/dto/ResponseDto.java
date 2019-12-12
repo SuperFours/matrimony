@@ -18,6 +18,9 @@ public class ResponseDto {
 		this.message = message;
 	}
 
+	public ResponseDto() {
+	}
+
 	private String status;
 	private String message;
 	private Integer statusCode;

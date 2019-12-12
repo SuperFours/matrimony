@@ -29,10 +29,10 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@SequenceGenerator(name = "my_sequence", sequenceName = "dbsequence", initialValue = 10000, allocationSize = 10)
-	private String matrimonyId;
-	private Integer phoneNumber;
+	private Integer matrimonyId;
+	private String phoneNumber;
 	private String password;
-	private boolean status;
+	private String status;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userMatrimonyId")
 	private UserProfile userProfile;

@@ -14,8 +14,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import com.matrimony.constant.AppConstant;
+import com.matrimony.dto.ResponseDto;
+
+import javassist.NotFoundException;
 
 /**
  * CustomExceptionHandler - we are handled here the global exceptions concepts
@@ -48,4 +54,15 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		body.put("errors", errors);
 		return new ResponseEntity<>(body, headers, status);
 	}
+	
+	@ExceptionHandler(NotFoundException.class)
+	public ResponseEntity<ResponseDto> handleNoRecordFoundException(NotFoundException ex) {
+		ResponseDto responseDto = new ResponseDto();
+		responseDto.setMessage(ex.getMessage());
+		responseDto.setStatus(AppConstant.FAILURE);
+		responseDto.setStatusCode(HttpStatus.NOT_FOUND.value());
+		return new ResponseEntity<>(responseDto, HttpStatus.NOT_FOUND);
+	}
+	
+	
 }
