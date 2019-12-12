@@ -19,23 +19,17 @@ public class UserProfileControllerTest {
 
 	@InjectMocks
 	UserProfileController userProfileController;
-	
+
 	@Mock
 	UserProfileService userProfileService;
-	
-	ProfileResponseDto profileResponseDto=new ProfileResponseDto();
-	
-	
+
+	ProfileResponseDto profileResponseDto = new ProfileResponseDto();
+
 	@Test
 	public void testProfileDetails() throws NotFoundException {
 		Mockito.when(userProfileService.profileDetail(123)).thenReturn(profileResponseDto);
-		Integer result= userProfileController.profileDetails(123).getStatusCodeValue();
+		Integer result = userProfileController.profileDetails(123).getStatusCodeValue();
 		assertEquals(200, result);
 	}
-	
-	
-	
-	
-	
-	
+
 }

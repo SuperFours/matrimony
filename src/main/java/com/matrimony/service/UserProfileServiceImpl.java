@@ -83,13 +83,15 @@ public class UserProfileServiceImpl implements UserProfileService {
 	public UserProfileResponseDto fetchAllProfiles(Integer userMatrimonyId) {
 
 		UserProfile userResponse = userProfileRepository.findByUserMatrimonyIdMatrimonyId(userMatrimonyId);
+		
+		Optional<UserProfile> usersProfile = Optional.ofNullable(userResponse);
 
 		List<UserProfileRequestDto> sserProfileResponseDto = null;
 		UserProfileResponseDto response = null;
 		List<UserProfile> usersProfiles = null;
 		String gender = null;
 
-		if (userResponse != null) {
+		if (usersProfile.isPresent()) {
 
 			gender = userResponse.getGender();
 
