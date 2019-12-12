@@ -93,6 +93,7 @@ public class UserServiceImpl implements UserService {
 		}
 
 		return registerResponseDto;
+		
 	}
 
 	/**

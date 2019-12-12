@@ -39,6 +39,7 @@ import javassist.NotFoundException;
 public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
+	
 	@Autowired
 	UserService userService;
 

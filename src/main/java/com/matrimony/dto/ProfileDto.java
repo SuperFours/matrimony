@@ -10,6 +10,7 @@ import lombok.Setter;
 public class ProfileDto {
 	
 	
+	
 	private String name;
 	private String maritalStatus;
 	private LocalDate dob;
@@ -18,7 +19,7 @@ public class ProfileDto {
 	private String emailAddress;
 	private String educationDetail;
 	private String occupationDetail;
-	private double annualIncome;
+	private Double annualIncome;
 	private String aboutMe;
 	private String imageUrl;
 

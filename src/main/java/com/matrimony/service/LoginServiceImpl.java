@@ -14,6 +14,7 @@ import com.matrimony.repository.UserRepository;
  */
 @Service
 public class LoginServiceImpl implements LoginService {
+	
 
 	@Autowired
 	UserRepository userRepository;
