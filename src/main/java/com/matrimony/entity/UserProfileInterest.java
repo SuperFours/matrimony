@@ -29,9 +29,11 @@ public class UserProfileInterest {
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "login_matrimony_id")
-	private Integer LoginMatrimonyId;
+	private User loginMatrimonyId;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "interest_matrimony_id")
-	private Integer interestMatrimonyId;
+	private User interestMatrimonyId;
+	private String status;
+
 }

@@ -1,4 +1,4 @@
-package com.medicalclaim.configuration;
+package com.matrimony.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,11 +10,11 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * SwaggerConfiguration - Medical Claim application implements a set of
- * REST endpoints to manage products we will create a Docket bean in a Spring
- * Boot configuration to configure Swagger 2 for the application. A Springfox
- * Docket instance provides the primary API configuration with sensible defaults
- * and convenience methods for configuration
+ * SwaggerConfiguration - Medical Claim application implements a set of REST
+ * endpoints to manage products we will create a Docket bean in a Spring Boot
+ * configuration to configure Swagger 2 for the application. A Springfox Docket
+ * instance provides the primary API configuration with sensible defaults and
+ * convenience methods for configuration
  * 
  * @author Govindasamy.C
  * @since 10-12-2019

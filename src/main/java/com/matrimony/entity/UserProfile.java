@@ -9,7 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -29,9 +29,9 @@ public class UserProfile {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_matrimony_id")
-	private Integer userMatrimonyId;
+	private User userMatrimonyId;
 	private String name;
 	private Integer age;
 	private String gender;
@@ -43,7 +43,7 @@ public class UserProfile {
 	private String aboutMe;
 	private String educationDetail;
 	private String occupationDetail;
-	private String annualIncome;
+	private Double annualIncome;
 	private String imageUrl;
 
 }
