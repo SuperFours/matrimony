@@ -28,6 +28,10 @@ public class RegisterRequestDto {
 	private String maritialStatus;
 	private String emailAddress;
 	private String dob;
+<<<<<<< HEAD
+=======
+	private String mobileNumber;
+>>>>>>> 8f511e1e81669a2aeeb29a6aea8f6491c2335deb
 	private String password;
 	private String city;
 	private String aboutMe;

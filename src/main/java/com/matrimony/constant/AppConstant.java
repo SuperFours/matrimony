@@ -15,13 +15,22 @@ public class AppConstant {
 	// Common Httpstatus success and failure messages.
 	public static final String SUCCESS = "SUCCESS";
 	public static final String FAILURE = "FAILURE";
+<<<<<<< HEAD
 	public static final String DATE_FORMAT_PATTERN = "yyyy-MM-dd";
+=======
+	public static final String NO_RECORD_FOUND = "No Record Found";
+>>>>>>> 8f511e1e81669a2aeeb29a6aea8f6491c2335deb
 
 	// Login
 	public static final String USER_PROFILE_ALREADY_EXISTS = "Phone number already exists";
 	public static final String LOGIN_SUCCESSFULLY = "User Login Successfully";
 	public static final String INVALID_LOGIN = "Invalid Username and Password";
+	
+	//User Profile
+	public static final String GEMDER_MALE = "male";
+	public static final String GEMDER_FEMALE = "female";
 
+<<<<<<< HEAD
 	// User Profile
 	public static final String PROFILE_REGISTER_SUCCESSFULLY = "Profile Created Successfully";
 	public static final String NO_PROFILES_FOUND = "No Profiles Found.";
@@ -30,4 +39,8 @@ public class AppConstant {
 	public static final String INTERESTED = "Interested";
 	public static final String INTEREST_SEND_SUCCESSFULLY = "Interest Send Successfully";
 
+=======
+    // User profile Details
+	public static final String USER_NOT_FOUND = "User Profile Not found";
+>>>>>>> 8f511e1e81669a2aeeb29a6aea8f6491c2335deb
 }

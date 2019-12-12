@@ -1,5 +1,6 @@
 package com.matrimony.controller;
 
+<<<<<<< HEAD
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -9,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+=======
+>>>>>>> 8f511e1e81669a2aeeb29a6aea8f6491c2335deb
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+<<<<<<< HEAD
 import com.matrimony.dto.InterestRequestDto;
 import com.matrimony.dto.RegisterRequestDto;
 import com.matrimony.dto.RegisterResponseDto;
@@ -24,6 +28,8 @@ import com.matrimony.service.UserService;
 
 import javassist.NotFoundException;
 
+=======
+>>>>>>> 8f511e1e81669a2aeeb29a6aea8f6491c2335deb
 /**
  * @description - User Controller can handles the all the user functionalities
  *              such as user profile creation and User Profile Interest
