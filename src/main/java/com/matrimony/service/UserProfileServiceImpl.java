@@ -46,9 +46,10 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	@Autowired
 	UserProfileRepository userProfileRepository;
-	
+
 	@Autowired
 	UserProfileInterestRepository userProfileInterestRepository;
+
 	/**
 	 * @throws NotFoundException
 	 * @description In this method we are getting the user profile Details from the
@@ -56,7 +57,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 	 * @exception Global Exception handled in this method
 	 */
 	@Override
-	public ProfileResponseDto profileDetail(Integer matrimonyId) throws NotFoundException {
+	public ProfileResponseDto profileDetail(Integer matrimonyId, Integer loginId) throws NotFoundException {
 		UserProfile userProfile = userProfileRepository.findByUserMatrimonyIdMatrimonyId(matrimonyId);
 		log.info("getting user profile from matrimonyId");
 		Optional<UserProfile> isUserProfile = Optional.ofNullable(userProfile);
@@ -64,6 +65,12 @@ public class UserProfileServiceImpl implements UserProfileService {
 			ProfileDto profileDto = new ProfileDto();
 			ProfileResponseDto profileResponseDto = new ProfileResponseDto();
 			BeanUtils.copyProperties(userProfile, profileDto);
+
+			Optional<UserProfileInterest> userInterest = userProfileInterestRepository
+					.findByInterestMatrimonyIdMatrimonyIdAndLoginMatrimonyIdMatrimonyId(matrimonyId, loginId);
+			if (userInterest.isPresent()) {
+				profileDto.setStatus(userInterest.get().getStatus());
+			}
 			profileResponseDto.setProfile(profileDto);
 			return profileResponseDto;
 		} else {
@@ -83,7 +90,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 	public UserProfileResponseDto fetchAllProfiles(Integer userMatrimonyId) {
 
 		UserProfile userResponse = userProfileRepository.findByUserMatrimonyIdMatrimonyId(userMatrimonyId);
-		
+
 		Optional<UserProfile> usersProfile = Optional.ofNullable(userResponse);
 
 		List<UserProfileRequestDto> sserProfileResponseDto = null;
@@ -168,30 +175,30 @@ public class UserProfileServiceImpl implements UserProfileService {
 	 */
 	@Override
 	public UsersResponseDto fetchProfilesInterestedOnMe(Integer userMatrimonyId) {
-		
-		List<UserProfileInterest> interestedUsers = null; 
-		List<UserDto>  userDtoResponse =null;
-		
-		UsersResponseDto usersResponseDto=null;
-		
+
+		List<UserProfileInterest> interestedUsers = null;
+		List<UserDto> userDtoResponse = null;
+
+		UsersResponseDto usersResponseDto = null;
+
 		interestedUsers = userProfileInterestRepository.findAllByInterestMatrimonyIdMatrimonyId(userMatrimonyId);
-		 
-		 if(interestedUsers !=null && interestedUsers.size() > AppConstant.ZERO) {
-			
-			 userDtoResponse = interestedUsers.stream().map(this::convertUserEntityToDto).collect(Collectors.toList());
-			 
-			 usersResponseDto = new UsersResponseDto();
-			 usersResponseDto.setMessage(AppConstant.SUCCESS);
-			 usersResponseDto.setStatusCode(HttpStatus.OK.value());
-			 usersResponseDto.setInterestedProfiles(userDtoResponse);
-		 }else {
-			 log.info("Interested User Not ound");
-			 usersResponseDto = new UsersResponseDto();
-			 usersResponseDto.setMessage(AppConstant.NO_RECORD_FOUND);
-			 usersResponseDto.setStatusCode(HttpStatus.NOT_FOUND.value());
-			 usersResponseDto.setInterestedProfiles(userDtoResponse);
-		 }
-		
+
+		if (interestedUsers != null && interestedUsers.size() > AppConstant.ZERO) {
+
+			userDtoResponse = interestedUsers.stream().map(this::convertUserEntityToDto).collect(Collectors.toList());
+
+			usersResponseDto = new UsersResponseDto();
+			usersResponseDto.setMessage(AppConstant.SUCCESS);
+			usersResponseDto.setStatusCode(HttpStatus.OK.value());
+			usersResponseDto.setInterestedProfiles(userDtoResponse);
+		} else {
+			log.info("Interested User Not ound");
+			usersResponseDto = new UsersResponseDto();
+			usersResponseDto.setMessage(AppConstant.NO_RECORD_FOUND);
+			usersResponseDto.setStatusCode(HttpStatus.NOT_FOUND.value());
+			usersResponseDto.setInterestedProfiles(userDtoResponse);
+		}
+
 		return usersResponseDto;
 	}
 
@@ -206,11 +213,20 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 		UserDto userDto = new UserDto();
 
-		BeanUtils.copyProperties(userProfileInterest.getLoginMatrimonyId().getUserProfile(), userDto);
-		 
-		  userDto.setStatus(userProfileInterest.getStatus());
-		 
-		userDto.setUserMatrimonyId(userProfileInterest.getInterestMatrimonyId().getMatrimonyId());
+		UserProfile loginProfile = userProfileInterest.getLoginMatrimonyId().getUserProfile();
+		userDto.setUserMatrimonyId(loginProfile.getUserMatrimonyId().getMatrimonyId());
+		userDto.setCity(loginProfile.getCity());
+		userDto.setAge(loginProfile.getAge());
+		userDto.setEducationDetail(loginProfile.getEducationDetail());
+		userDto.setName(loginProfile.getName());
+		userDto.setImageUrl(loginProfile.getImageUrl());
+
+		// BeanUtils.copyProperties(userProfileInterest.getLoginMatrimonyId().getUserProfile(),
+		// userDto);
+
+		userDto.setStatus(userProfileInterest.getStatus());
+
+		// userDto.setUserMatrimonyId(userProfileInterest.getInterestMatrimonyId().getMatrimonyId());
 		log.info("Converted user entiry and - returning UserDto ");
 
 		return userDto;
