@@ -44,7 +44,7 @@ public class UserProfile implements Serializable {
 	private String name;
 	private Integer age;
 	private String gender;
-	private String maritalStatus;
+	private String maritialStatus;
 	private String emailAddress;
 	private LocalDate dob;
 	private String phoneNumber;

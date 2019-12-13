@@ -12,7 +12,7 @@ public class ProfileDto {
 	
 	
 	private String name;
-	private String maritalStatus;
+	private String maritialStatus;
 	private LocalDate dob;
 	private Integer age;
 	private String city;
@@ -22,5 +22,6 @@ public class ProfileDto {
 	private Double annualIncome;
 	private String aboutMe;
 	private String imageUrl;
+	private String status;
 
 }

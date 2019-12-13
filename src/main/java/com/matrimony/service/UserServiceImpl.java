@@ -65,35 +65,38 @@ public class UserServiceImpl implements UserService {
 		logger.debug("user profile registration...");
 		RegisterResponseDto registerResponseDto = new RegisterResponseDto();
 		Optional<User> userId = userRepository.findByPhoneNumber(registerRequestDto.getPhoneNumber());
-		if(!userId.isPresent()) {
-			//User Details 
+		if (!userId.isPresent()) {
+			// User Details
 			User user = new User();
-			BeanUtils.copyProperties(user, registerRequestDto);
-
+			user.setStatus(true);
+			user.setPassword(registerRequestDto.getPassword());
+			user.setPhoneNumber(registerRequestDto.getPhoneNumber());
 			// Save the User Details.
-			userRepository.save(user);
-			
-			//User Profile Details 
+			User savedUser = userRepository.save(user);
+
+			// User Profile Details
 			UserProfile userProfile = new UserProfile();
 			BeanUtils.copyProperties(registerRequestDto, userProfile);
-			userProfile.setUserMatrimonyId(user);
+			userProfile.setUserMatrimonyId(savedUser);
+			userProfile.setPhoneNumber(registerRequestDto.getPhoneNumber());
+			userProfile.setOccupationDetail(registerRequestDto.getOccupationDetail());
 
 			// Convert String to LocalDate
 			LocalDate dob = LocalDate.parse(registerRequestDto.getDob(), dateFormat);
-
+			userProfile.setDob(dob);
 			Integer age = calculateAge(dob, LocalDate.now());
 			userProfile.setAge(age);
-			//Save the user profile details.
+			// Save the user profile details.
 			userProfileRepository.save(userProfile);
 
 			registerResponseDto.setMatrimonyId(user.getMatrimonyId());
 			registerResponseDto.setMessage(AppConstant.PROFILE_REGISTER_SUCCESSFULLY);
-		}else {
+		} else {
 			throw new UserProfileAlreadyExist(AppConstant.USER_PROFILE_ALREADY_EXISTS);
 		}
 
 		return registerResponseDto;
-		
+
 	}
 
 	/**

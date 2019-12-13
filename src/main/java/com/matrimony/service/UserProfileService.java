@@ -16,7 +16,7 @@ import javassist.NotFoundException;
 
 public interface UserProfileService {
 
-	public ProfileResponseDto profileDetail(Integer matrimonyId) throws NotFoundException;
+	public ProfileResponseDto profileDetail(Integer matrimonyId, Integer loginId) throws NotFoundException;
 
 	UserProfileResponseDto fetchAllProfiles(Integer userMatrimonyId);
 	

@@ -24,7 +24,7 @@ public class RegisterRequestDto {
 	private String phoneNumber;
 	private Integer age;
 	private String gender;
-	private String maritalStatus;
+	private String maritialStatus;
 	private String emailAddress;
 	private String dob;
 	private String password;

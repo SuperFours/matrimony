@@ -40,10 +40,10 @@ public class UserProfileController {
 	 * @return
 	 * @throws NotFoundException
 	 */
-	@GetMapping("/users/{matrimonyId}")
-	public ResponseEntity<ProfileResponseDto> profileDetails(@PathVariable Integer matrimonyId)
-			throws NotFoundException {
-		ProfileResponseDto profileResponseDto = userProfileService.profileDetail(matrimonyId);
+	@GetMapping("/users/{matrimonyId}/{loginId}")
+	public ResponseEntity<ProfileResponseDto> profileDetails(@PathVariable Integer matrimonyId,
+			@PathVariable Integer loginId) throws NotFoundException {
+		ProfileResponseDto profileResponseDto = userProfileService.profileDetail(matrimonyId, loginId);
 		log.info("getting user profile details");
 		profileResponseDto.setMessage(AppConstant.SUCCESS);
 		profileResponseDto.setStatusCode(HttpStatus.OK.value());
