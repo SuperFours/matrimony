@@ -38,10 +38,11 @@ public class LoginController {
 	LoginService loginService;
 
 	/**
-	 * login checks with userId and password
+	 * login checks with userId and password by the already have the user login.
 	 * 
 	 * @param userDto -> params are userId and password.
-	 * @return response is success or failure
+	 * @return send the message and statuscode as response for the success or
+	 *         failure cases.
 	 */
 
 	@PostMapping

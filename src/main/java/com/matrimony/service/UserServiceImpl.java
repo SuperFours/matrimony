@@ -69,23 +69,25 @@ public class UserServiceImpl implements UserService {
 			// User Details
 			User user = new User();
 			user.setStatus(true);
-			user.setPassword(registerRequestDto.getPassword());
-			user.setPhoneNumber(registerRequestDto.getPhoneNumber());
+			BeanUtils.copyProperties(registerRequestDto, user);
+
 			// Save the User Details.
 			User savedUser = userRepository.save(user);
 
-			// User Profile Details
+			// Set User Profile Details from Dto
 			UserProfile userProfile = new UserProfile();
 			BeanUtils.copyProperties(registerRequestDto, userProfile);
 			userProfile.setUserMatrimonyId(savedUser);
-			userProfile.setPhoneNumber(registerRequestDto.getPhoneNumber());
-			userProfile.setOccupationDetail(registerRequestDto.getOccupationDetail());
+			//userProfile.setOccupationDetail(registerRequestDto.getOccupationDetail());
 
 			// Convert String to LocalDate
 			LocalDate dob = LocalDate.parse(registerRequestDto.getDob(), dateFormat);
 			userProfile.setDob(dob);
+
+			// Calculate the user age based on the dob.
 			Integer age = calculateAge(dob, LocalDate.now());
 			userProfile.setAge(age);
+
 			// Save the user profile details.
 			userProfileRepository.save(userProfile);
 
@@ -96,7 +98,6 @@ public class UserServiceImpl implements UserService {
 		}
 
 		return registerResponseDto;
-
 	}
 
 	/**

@@ -1,5 +1,6 @@
 package com.matrimony.dto;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
@@ -18,14 +19,17 @@ import lombok.Setter;
 public class RegisterRequestDto {
 	@NotBlank(message = "name should be mandatory")
 	private String name;
-	
+
 	@NotBlank(message = "phoneNumber should be mandatory")
 	@Pattern(regexp = "(^$|[0-9]{10})", message = "Invalid phoneNumber.")
 	private String phoneNumber;
+
+	@Email(message = "Invalid emailaddress")
+	private String emailAddress;
+
 	private Integer age;
 	private String gender;
 	private String maritialStatus;
-	private String emailAddress;
 	private String dob;
 	private String password;
 	private String city;
@@ -34,4 +38,5 @@ public class RegisterRequestDto {
 	private String imageUrl;
 	private String occupationDetail;
 	private Double annualIncome;
+	private String foodHabit;
 }

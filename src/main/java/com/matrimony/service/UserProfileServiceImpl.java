@@ -99,36 +99,23 @@ public class UserProfileServiceImpl implements UserProfileService {
 		String gender = null;
 
 		if (usersProfile.isPresent()) {
-
 			gender = userResponse.getGender();
-
 			UserProfile userProfile = new UserProfile();
-
 			if (gender.equalsIgnoreCase(AppConstant.GEMDER_MALE)) {
-
 				userProfile.setGender(AppConstant.GEMDER_FEMALE);
-
 				usersProfiles = userProfileRepository.findAllByGender(userProfile.getGender());
-
 				sserProfileResponseDto = usersProfiles.stream().map(this::convertEntityToDto)
 						.collect(Collectors.toList());
-
 				response = new UserProfileResponseDto();
-
 				response.setMessage(AppConstant.SUCCESS);
 				response.setProfiles(sserProfileResponseDto);
 
 			} else {
-
 				userProfile.setGender(AppConstant.GEMDER_MALE);
-
 				usersProfiles = userProfileRepository.findAllByGender(userProfile.getGender());
-
 				sserProfileResponseDto = usersProfiles.stream().map(this::convertEntityToDto)
 						.collect(Collectors.toList());
-
 				response = new UserProfileResponseDto();
-
 				response.setMessage(AppConstant.SUCCESS);
 				response.setProfiles(sserProfileResponseDto);
 			}
@@ -213,6 +200,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 		UserDto userDto = new UserDto();
 
+		log.info("Converted user entiry and - returning UserDto ");
 		UserProfile loginProfile = userProfileInterest.getLoginMatrimonyId().getUserProfile();
 		userDto.setUserMatrimonyId(loginProfile.getUserMatrimonyId().getMatrimonyId());
 		userDto.setCity(loginProfile.getCity());
@@ -221,13 +209,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 		userDto.setName(loginProfile.getName());
 		userDto.setImageUrl(loginProfile.getImageUrl());
 
-		// BeanUtils.copyProperties(userProfileInterest.getLoginMatrimonyId().getUserProfile(),
-		// userDto);
-
 		userDto.setStatus(userProfileInterest.getStatus());
-
-		// userDto.setUserMatrimonyId(userProfileInterest.getInterestMatrimonyId().getMatrimonyId());
-		log.info("Converted user entiry and - returning UserDto ");
 
 		return userDto;
 	}

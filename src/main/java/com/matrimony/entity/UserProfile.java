@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,6 +40,7 @@ public class UserProfile implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
+	@JsonBackReference
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_matrimony_id")
 	private User userMatrimonyId;
@@ -47,12 +50,16 @@ public class UserProfile implements Serializable {
 	private String maritialStatus;
 	private String emailAddress;
 	private LocalDate dob;
-	private String phoneNumber;
 	private String city;
 	private String aboutMe;
 	private String educationDetail;
 	private String occupationDetail;
 	private Double annualIncome;
 	private String imageUrl;
+	private String foodHabit;
+	private String partnerFood;
+	private String partnerOccupation;
+	private String partnerEducation;
+	private String partnerCity;
 
 }
