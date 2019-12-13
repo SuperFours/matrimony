@@ -1,5 +1,6 @@
 package com.matrimony.service;
 
+import java.util.ArrayList;
 /**
  * @description UserProfileServiceImpl handles the display profile and detailed
  *              profile methods
@@ -11,8 +12,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +32,7 @@ import com.matrimony.dto.UserProfileResponseDto;
 import com.matrimony.dto.UsersResponseDto;
 import com.matrimony.entity.UserProfile;
 import com.matrimony.entity.UserProfileInterest;
+import com.matrimony.repository.PreferredProfilesRepository;
 import com.matrimony.repository.UserProfileInterestRepository;
 import com.matrimony.repository.UserProfileRepository;
 
@@ -49,6 +57,9 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	@Autowired
 	UserProfileInterestRepository userProfileInterestRepository;
+
+	@Autowired
+	PreferredProfilesRepository preferredProfilesRepository;
 
 	/**
 	 * @throws NotFoundException
@@ -212,5 +223,60 @@ public class UserProfileServiceImpl implements UserProfileService {
 		userDto.setStatus(userProfileInterest.getStatus());
 
 		return userDto;
+	}
+
+	/**
+	 * @description This method will fetch all the preferred match profiles
+	 * @param userMatrimonyId Integer
+	 * @return List of UserProfile
+	 */
+	public List<UserProfile> findPreferredProfiles(Integer userMatrimonyId) {
+
+		List<UserProfile> userProfiles = new ArrayList<>();
+		UserProfile userProfileResponse = userProfileRepository.findByUserMatrimonyIdMatrimonyId(userMatrimonyId);
+
+		Optional<UserProfile> isUsersProfile = Optional.ofNullable(userProfileResponse);
+
+		if (isUsersProfile.isPresent()) {
+
+			userProfiles = preferredProfilesRepository.findAll(new Specification<UserProfile>() {
+
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public Predicate toPredicate(Root<UserProfile> userProfile, CriteriaQuery<?> query,
+						CriteriaBuilder criteriaBuilder) {
+					List<Predicate> predicates = new ArrayList<>();
+					if (userProfile != null) {
+
+						predicates.add(criteriaBuilder.or(
+								
+								criteriaBuilder.equal(userProfile.get("partnerCity"),
+										isUsersProfile.get().getPartnerCity()),
+
+								criteriaBuilder.equal(userProfile.get("partnerEducation"),
+										isUsersProfile.get().getPartnerEducation()),
+
+								criteriaBuilder.equal(userProfile.get("partnerOccupation"),
+										isUsersProfile.get().getPartnerOccupation()),
+
+								criteriaBuilder.equal(userProfile.get("foodHabit"),
+										isUsersProfile.get().getFoodHabit()),
+
+								criteriaBuilder.equal(userProfile.get("partnerFood"),
+										isUsersProfile.get().getPartnerFood())
+
+						));
+					}
+					return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+				}
+			});
+
+			userProfiles = userProfiles.stream()
+					.filter(userProfile -> !userProfile.getId().equals(isUsersProfile.get().getId()))
+					.collect(Collectors.toList());
+
+		}
+		return userProfiles;
 	}
 }

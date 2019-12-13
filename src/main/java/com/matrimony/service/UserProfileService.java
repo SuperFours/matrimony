@@ -1,8 +1,11 @@
 package com.matrimony.service;
 
+import java.util.List;
+
 import com.matrimony.dto.ProfileResponseDto;
 import com.matrimony.dto.UserProfileResponseDto;
 import com.matrimony.dto.UsersResponseDto;
+import com.matrimony.entity.UserProfile;
 
 import javassist.NotFoundException;
 
@@ -21,5 +24,7 @@ public interface UserProfileService {
 	UserProfileResponseDto fetchAllProfiles(Integer userMatrimonyId);
 	
 	UsersResponseDto fetchProfilesInterestedOnMe(Integer userMatrimonyId);
+
+	public List<UserProfile> findPreferredProfiles(Integer userMatrimonyId);
 
 }

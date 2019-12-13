@@ -2,6 +2,7 @@ package com.matrimony.repository;
 
 import java.util.List;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -20,5 +21,7 @@ public interface UserProfileRepository extends JpaRepository<UserProfile, Intege
 	UserProfile findByUserMatrimonyIdMatrimonyId(Integer matrimonyId);
 
 	List<UserProfile> findAllByGender(String gender);
+
+	List<UserProfile> findAll(Specification<UserProfile> specification);
 
 }

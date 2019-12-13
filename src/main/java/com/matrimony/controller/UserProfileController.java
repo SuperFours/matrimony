@@ -1,5 +1,7 @@
 package com.matrimony.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import com.matrimony.constant.AppConstant;
 import com.matrimony.dto.ProfileResponseDto;
 import com.matrimony.dto.UserProfileResponseDto;
 import com.matrimony.dto.UsersResponseDto;
+import com.matrimony.entity.UserProfile;
 import com.matrimony.service.UserProfileService;
 
 import javassist.NotFoundException;
@@ -75,6 +78,19 @@ public class UserProfileController {
 		usersResponseDto.setStatusCode(HttpStatus.OK.value());
 		log.info("interested users info response sent back to UI ");
 		return new ResponseEntity<>(usersResponseDto, HttpStatus.OK);
+	}
+	
+	/**
+	 * @description This method is used to get the all the matched profiles and
+	 *              filter based on the highest matching and return it to end user
+	 * @author akuthota.raghu
+	 * @param 
+	 * @return
+	 *
+	 */
+	@GetMapping("/{userMatrimonyId}/preferredprofiles")
+	public List<UserProfile> getpreferredProfiles(@PathVariable Integer userMatrimonyId) {
+			return userProfileService.findPreferredProfiles(userMatrimonyId);
 	}
 
 }
