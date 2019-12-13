@@ -250,7 +250,6 @@ public class UserProfileServiceImpl implements UserProfileService {
 					if (userProfile != null) {
 
 						predicates.add(criteriaBuilder.or(
-								
 								criteriaBuilder.equal(userProfile.get("partnerCity"),
 										isUsersProfile.get().getPartnerCity()),
 
@@ -264,16 +263,16 @@ public class UserProfileServiceImpl implements UserProfileService {
 										isUsersProfile.get().getFoodHabit()),
 
 								criteriaBuilder.equal(userProfile.get("partnerFood"),
-										isUsersProfile.get().getPartnerFood())
-
-						));
+										isUsersProfile.get().getPartnerFood())));
 					}
 					return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
 				}
 			});
 
 			userProfiles = userProfiles.stream()
-					.filter(userProfile -> !userProfile.getId().equals(isUsersProfile.get().getId()))
+					.filter(userProfile -> (!userProfile.getId()
+							.equals(isUsersProfile.get().getId())
+									&& (!userProfile.getGender().equals(isUsersProfile.get().getGender()))))
 					.collect(Collectors.toList());
 
 		}
