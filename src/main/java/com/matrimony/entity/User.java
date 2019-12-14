@@ -13,9 +13,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,11 +31,11 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @Entity
-@SequenceGenerator(name = "matrimonyId", allocationSize= 1, initialValue = 50000)
-public class User implements Serializable{
+@SequenceGenerator(name = "matrimonyId", allocationSize = 1, initialValue = 50000)
+public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "matrimonyId")
 	private Integer matrimonyId;

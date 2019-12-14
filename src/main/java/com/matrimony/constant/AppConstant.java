@@ -24,8 +24,8 @@ public class AppConstant {
 	public static final String INVALID_LOGIN = "Invalid Username and Password";
 	
 	//User Profile
-	public static final String GEMDER_MALE = "male";
-	public static final String GEMDER_FEMALE = "female";
+	public static final String GENDER_MALE = "male";
+	public static final String GENDER_FEMALE = "female";
 
 	// User Profile
 	public static final String PROFILE_REGISTER_SUCCESSFULLY = "Profile Created Successfully";
@@ -37,6 +37,12 @@ public class AppConstant {
 
     // User profile Details
 	public static final String USER_NOT_FOUND = "User Profile Not found";
-	
 	public static final Integer ZERO = 0;
+	
+	//Search Partner Profile Preference
+	public static final String PARTNER_CITY = "partnerCity";
+	public static final String PARTNER_EDUCATION = "partnerEducation";
+	public static final String PARTNER_OCCUPATION = "partnerOccupation";
+	public static final String PARTNER_FOOD_HABIT = "partnerFood";
+
 }

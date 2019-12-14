@@ -71,7 +71,7 @@ public class UserController {
 	@PostMapping("/{matrimonyId}")
 	public ResponseEntity<ResponseDto> sendInterest(@PathVariable Integer matrimonyId,
 			@RequestBody InterestRequestDto interestRequestDto) throws NotFoundException {
-		logger.info("send interest...");
+		logger.info("send interest by matrimonyID...");
 		ResponseDto responseDto = userService.sendInterest(matrimonyId, interestRequestDto);
 		Optional<String> response = Optional.ofNullable(responseDto.getMessage());
 		if (response.isPresent()) {

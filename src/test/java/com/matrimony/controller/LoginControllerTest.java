@@ -59,7 +59,9 @@ public class LoginControllerTest {
 
 		ResponseEntity<LoginResponseDto> response = loginController.login(userDto);
 		assertEquals(AppConstant.SUCCESS, response.getBody().getStatus());
-		assertEquals(200, response.getBody().getStatusCode());
+		assertThat(response.getBody().getMatrimonyId()).isNotNull();
+		assertThat(response.getBody().getUserName()).isNotNull();
+
 	}
 
 	@Test

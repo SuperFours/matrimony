@@ -78,7 +78,6 @@ public class UserServiceImpl implements UserService {
 			UserProfile userProfile = new UserProfile();
 			BeanUtils.copyProperties(registerRequestDto, userProfile);
 			userProfile.setUserMatrimonyId(savedUser);
-			//userProfile.setOccupationDetail(registerRequestDto.getOccupationDetail());
 
 			// Convert String to LocalDate
 			LocalDate dob = LocalDate.parse(registerRequestDto.getDob(), dateFormat);
@@ -111,7 +110,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public ResponseDto sendInterest(Integer matrimonyId, InterestRequestDto interestRequestDto)
 			throws NotFoundException {
-		logger.info("send interest...");
+		logger.info("send interest with user profile...");
 		ResponseDto responseDto = new ResponseDto();
 		Optional<User> interestedUserId = userRepository.findByMatrimonyId(interestRequestDto.getInterestMatrimonyId());
 		Optional<User> loginUserId = userRepository.findByMatrimonyId(matrimonyId);

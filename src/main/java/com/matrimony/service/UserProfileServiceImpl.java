@@ -32,7 +32,6 @@ import com.matrimony.dto.UserProfileResponseDto;
 import com.matrimony.dto.UsersResponseDto;
 import com.matrimony.entity.UserProfile;
 import com.matrimony.entity.UserProfileInterest;
-import com.matrimony.repository.PreferredProfilesRepository;
 import com.matrimony.repository.UserProfileInterestRepository;
 import com.matrimony.repository.UserProfileRepository;
 
@@ -57,9 +56,6 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	@Autowired
 	UserProfileInterestRepository userProfileInterestRepository;
-
-	@Autowired
-	PreferredProfilesRepository preferredProfilesRepository;
 
 	/**
 	 * @throws NotFoundException
@@ -99,11 +95,9 @@ public class UserProfileServiceImpl implements UserProfileService {
 	 */
 	@Override
 	public UserProfileResponseDto fetchAllProfiles(Integer userMatrimonyId) {
-
+		log.info("fetch all the user profiles.");
 		UserProfile userResponse = userProfileRepository.findByUserMatrimonyIdMatrimonyId(userMatrimonyId);
-
 		Optional<UserProfile> usersProfile = Optional.ofNullable(userResponse);
-
 		List<UserProfileRequestDto> sserProfileResponseDto = null;
 		UserProfileResponseDto response = null;
 		List<UserProfile> usersProfiles = null;
@@ -112,8 +106,9 @@ public class UserProfileServiceImpl implements UserProfileService {
 		if (usersProfile.isPresent()) {
 			gender = userResponse.getGender();
 			UserProfile userProfile = new UserProfile();
-			if (gender.equalsIgnoreCase(AppConstant.GEMDER_MALE)) {
-				userProfile.setGender(AppConstant.GEMDER_FEMALE);
+			if (gender.equalsIgnoreCase(AppConstant.GENDER_MALE)) {
+				userProfile.setGender(AppConstant.GENDER_FEMALE);
+				log.debug("find all the user profiles by female.");
 				usersProfiles = userProfileRepository.findAllByGender(userProfile.getGender());
 				sserProfileResponseDto = usersProfiles.stream().map(this::convertEntityToDto)
 						.collect(Collectors.toList());
@@ -122,7 +117,8 @@ public class UserProfileServiceImpl implements UserProfileService {
 				response.setProfiles(sserProfileResponseDto);
 
 			} else {
-				userProfile.setGender(AppConstant.GEMDER_MALE);
+				userProfile.setGender(AppConstant.GENDER_MALE);
+				log.debug("find all the user profiles by gender.");
 				usersProfiles = userProfileRepository.findAllByGender(userProfile.getGender());
 				sserProfileResponseDto = usersProfiles.stream().map(this::convertEntityToDto)
 						.collect(Collectors.toList());
@@ -132,11 +128,8 @@ public class UserProfileServiceImpl implements UserProfileService {
 			}
 
 		} else {
-
 			log.info("UserProfileServiceImpl - user profile not found ");
-
 			response = new UserProfileResponseDto();
-
 			response.setMessage(AppConstant.NO_RECORD_FOUND);
 			response.setStatusCode(HttpStatus.NOT_FOUND.value());
 			response.setProfiles(sserProfileResponseDto);
@@ -154,15 +147,10 @@ public class UserProfileServiceImpl implements UserProfileService {
 	 *         parameters
 	 */
 	private UserProfileRequestDto convertEntityToDto(UserProfile userProfile) {
-
 		UserProfileRequestDto userProfileRequestDto = new UserProfileRequestDto();
-
 		userProfileRequestDto.setUserMatrimonyId(userProfile.getUserMatrimonyId().getMatrimonyId());
-
 		BeanUtils.copyProperties(userProfile, userProfileRequestDto);
-
 		log.info("Converted entiry and - returning UserProfileRequestDto ");
-
 		return userProfileRequestDto;
 	}
 
@@ -173,18 +161,14 @@ public class UserProfileServiceImpl implements UserProfileService {
 	 */
 	@Override
 	public UsersResponseDto fetchProfilesInterestedOnMe(Integer userMatrimonyId) {
+		log.info("Fetch user profiles by interested profiles.");
 
-		List<UserProfileInterest> interestedUsers = null;
 		List<UserDto> userDtoResponse = null;
-
 		UsersResponseDto usersResponseDto = null;
-
-		interestedUsers = userProfileInterestRepository.findAllByInterestMatrimonyIdMatrimonyId(userMatrimonyId);
-
+		List<UserProfileInterest> interestedUsers = userProfileInterestRepository
+				.findAllByInterestMatrimonyIdMatrimonyId(userMatrimonyId);
 		if (interestedUsers != null && interestedUsers.size() > AppConstant.ZERO) {
-
 			userDtoResponse = interestedUsers.stream().map(this::convertUserEntityToDto).collect(Collectors.toList());
-
 			usersResponseDto = new UsersResponseDto();
 			usersResponseDto.setMessage(AppConstant.SUCCESS);
 			usersResponseDto.setStatusCode(HttpStatus.OK.value());
@@ -201,6 +185,52 @@ public class UserProfileServiceImpl implements UserProfileService {
 	}
 
 	/**
+	 * @description This method will fetch all the preferred match profiles
+	 * @param userMatrimonyId Integer
+	 * @return List of UserProfile
+	 */
+	@Override
+	public UserProfileResponseDto findPreferredProfiles(Integer userMatrimonyId) {
+		UserProfileResponseDto responseDto = new UserProfileResponseDto();
+		UserProfile userProfileResponse = userProfileRepository.findByUserMatrimonyIdMatrimonyId(userMatrimonyId);
+		Optional<UserProfile> isUsersProfile = Optional.ofNullable(userProfileResponse);
+		if (isUsersProfile.isPresent()) {
+			UserProfile matrimonyProfile = isUsersProfile.get();
+			List<UserProfile> userProfiles = userProfileRepository.findAll(new Specification<UserProfile>() {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public Predicate toPredicate(Root<UserProfile> userProfile, CriteriaQuery<?> query,
+						CriteriaBuilder criteriaBuilder) {
+					List<Predicate> predicates = new ArrayList<>();
+					if (userProfile != null) {
+						predicates.add(criteriaBuilder.or(
+								criteriaBuilder.equal(userProfile.get(AppConstant.PARTNER_CITY),
+										matrimonyProfile.getPartnerCity()),
+								criteriaBuilder.equal(userProfile.get(AppConstant.PARTNER_EDUCATION),
+										matrimonyProfile.getPartnerEducation()),
+								criteriaBuilder.equal(userProfile.get(AppConstant.PARTNER_OCCUPATION),
+										matrimonyProfile.getPartnerOccupation()),
+								criteriaBuilder.equal(userProfile.get(AppConstant.PARTNER_FOOD_HABIT),
+										matrimonyProfile.getPartnerFood())));
+					}
+					return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+				}
+			});
+
+			// filter the user profiles by gender wise and map the convert the model objects
+			// to Dto with collect the object by list of the dto.
+			List<UserProfileRequestDto> userProfileDto = userProfiles.stream()
+					.filter(userProfile -> (!userProfile.getId().equals(isUsersProfile.get().getId())
+							&& (!userProfile.getGender().equals(isUsersProfile.get().getGender()))))
+					.map(this::convertEntityToDto).collect(Collectors.toList());
+			responseDto.setProfiles(userProfileDto);
+		}
+		responseDto.setMessage(AppConstant.SUCCESS);
+		return responseDto;
+	}
+
+	/**
 	 * @description This below method is a used to convert entity to DTO and return
 	 *              the response DTO object
 	 * @param UserProfile input object to convert
@@ -208,9 +238,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 	 *         parameters
 	 */
 	private UserDto convertUserEntityToDto(UserProfileInterest userProfileInterest) {
-
 		UserDto userDto = new UserDto();
-
 		log.info("Converted user entiry and - returning UserDto ");
 		UserProfile loginProfile = userProfileInterest.getLoginMatrimonyId().getUserProfile();
 		userDto.setUserMatrimonyId(loginProfile.getUserMatrimonyId().getMatrimonyId());
@@ -219,63 +247,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 		userDto.setEducationDetail(loginProfile.getEducationDetail());
 		userDto.setName(loginProfile.getName());
 		userDto.setImageUrl(loginProfile.getImageUrl());
-
 		userDto.setStatus(userProfileInterest.getStatus());
-
 		return userDto;
-	}
-
-	/**
-	 * @description This method will fetch all the preferred match profiles
-	 * @param userMatrimonyId Integer
-	 * @return List of UserProfile
-	 */
-	public List<UserProfile> findPreferredProfiles(Integer userMatrimonyId) {
-
-		List<UserProfile> userProfiles = new ArrayList<>();
-		UserProfile userProfileResponse = userProfileRepository.findByUserMatrimonyIdMatrimonyId(userMatrimonyId);
-
-		Optional<UserProfile> isUsersProfile = Optional.ofNullable(userProfileResponse);
-
-		if (isUsersProfile.isPresent()) {
-
-			userProfiles = preferredProfilesRepository.findAll(new Specification<UserProfile>() {
-
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public Predicate toPredicate(Root<UserProfile> userProfile, CriteriaQuery<?> query,
-						CriteriaBuilder criteriaBuilder) {
-					List<Predicate> predicates = new ArrayList<>();
-					if (userProfile != null) {
-
-						predicates.add(criteriaBuilder.or(
-								criteriaBuilder.equal(userProfile.get("partnerCity"),
-										isUsersProfile.get().getPartnerCity()),
-
-								criteriaBuilder.equal(userProfile.get("partnerEducation"),
-										isUsersProfile.get().getPartnerEducation()),
-
-								criteriaBuilder.equal(userProfile.get("partnerOccupation"),
-										isUsersProfile.get().getPartnerOccupation()),
-
-								criteriaBuilder.equal(userProfile.get("foodHabit"),
-										isUsersProfile.get().getFoodHabit()),
-
-								criteriaBuilder.equal(userProfile.get("partnerFood"),
-										isUsersProfile.get().getPartnerFood())));
-					}
-					return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-				}
-			});
-
-			userProfiles = userProfiles.stream()
-					.filter(userProfile -> (!userProfile.getId()
-							.equals(isUsersProfile.get().getId())
-									&& (!userProfile.getGender().equals(isUsersProfile.get().getGender()))))
-					.collect(Collectors.toList());
-
-		}
-		return userProfiles;
 	}
 }

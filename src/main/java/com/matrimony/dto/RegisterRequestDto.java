@@ -39,4 +39,8 @@ public class RegisterRequestDto {
 	private String occupationDetail;
 	private Double annualIncome;
 	private String foodHabit;
+	private String partnerFood;
+	private String partnerOccupation;
+	private String partnerEducation;
+	private String partnerCity;
 }
